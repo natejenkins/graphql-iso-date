@@ -8,6 +8,8 @@
  *
  */
 
+const TIME_REGEX = /^([01][0-9]|2[0-3]):([0-5][0-9]):([0-5][0-9])(\.\d{1,})?(([Z])|([+|-]([01][0-9]|2[0-3])(?<end>:[0-5][0-9])*))$/
+
 // Parses an RFC 3339 compliant time-string into a Date.
 // It does this by combining the current date with the time-string
 // to create a new Date instance.
@@ -17,8 +19,10 @@
 // parseTime('11:00:12Z') parses to a Date corresponding to
 // 2016-01-01T11:00:12Z.
 export const parseTime = (time: string): Date => {
+  console.info("PARSING TIME STRING")
   const currentDateString = new Date().toISOString()
-  return new Date(currentDateString.substr(0, currentDateString.indexOf('T') + 1) + time)
+  const match = time.match(TIME_REGEX)
+  return new Date(currentDateString.substr(0, currentDateString.indexOf('T') + 1) + time + (match.groups.end ? '' : ':00'))
 }
 
 // Serializes a Date into an RFC 3339 compliant time-string in the
