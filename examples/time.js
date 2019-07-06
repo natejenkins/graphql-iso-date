@@ -33,6 +33,13 @@ const schema = new GraphQLSchema({
         // Resolve takes a time string with a timezone and shifts it to UTC.
         resolve: (): string => '14:30:00+01:00'
       },
+      timezoneHourPrecision: {
+        type: GraphQLTime,
+        // Resolve takes a time string with a timezone and shifts it to UTC.
+        resolve: (): string => {
+          return '14:30:00+01'
+        }
+      },
       input: {
         type: GraphQLTime,
         args: {
@@ -47,18 +54,25 @@ const schema = new GraphQLSchema({
   })
 })
 
+// const query = `
+// query TimeTest($time: Time) {
+//   time
+//   openingNYSE
+//   timezone
+//   input(time: $time)
+//   timezoneHourPrecision
+// }
+// `
+
 const query = `
-query TimeTest($time: Time) {
-  time
-  openingNYSE
-  timezone
-  input(time: $time)
+query {
+  timezoneHourPrecision
 }
 `
 
 const variables = { time: '11:34:21.345Z' }
 
-graphql(schema, query, null, null, variables).then(data => {
+graphql(schema, query, null, null).then(data => {
   console.log('\n\nTime Scalar Example:\n')
   console.log(JSON.stringify(data, null, 2))
 })
