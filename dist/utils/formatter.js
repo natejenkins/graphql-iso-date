@@ -24,7 +24,6 @@ var TIME_REGEX = /^([01][0-9]|2[0-3]):([0-5][0-9]):([0-5][0-9])(\.\d{1,})?(([Z])
 // parseTime('11:00:12Z') parses to a Date corresponding to
 // 2016-01-01T11:00:12Z.
 var parseTime = exports.parseTime = function parseTime(time) {
-  console.info("PARSING TIME STRING");
   var currentDateString = new Date().toISOString();
   var match = time.match(TIME_REGEX);
   return new Date(currentDateString.substr(0, currentDateString.indexOf('T') + 1) + time + (match.groups.end ? '' : ':00'));
